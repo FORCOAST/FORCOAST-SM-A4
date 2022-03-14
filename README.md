@@ -21,3 +21,8 @@ Available parameters:  <br />
 - pldmin: minimal pelagic larval duration of the selected species, default: 20 <br />
 - pldmax: maximal pelagic larval duration of the selected species, default: 45 <br />
 - sd : duration of the spawning period, default: 30
+
+To run the container:<br />
+
+"docker run forcoast-sm-a3 $1 $2 $3 $4 $5 $6 $7 $8" all parameters need to be given
+Example with default values: "docker run forcoast-sm-a3 3 1 9 7 325 20 45 30"
