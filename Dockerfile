@@ -1,8 +1,9 @@
 FROM python:3.10.2
 
-RUN mkdir -p /Test-FORCOAST-SM-A4-main
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/output
 
-COPY . /Test-FORCOAST-SM-A4-main
+COPY . /usr/src/app
 
 RUN apt-get update
 RUN apt-get install -y python sqlite3 vim
@@ -14,4 +15,6 @@ RUN pip install matplotlib
 RUN pip install netCDF4
 RUN pip install scipy
 
-CMD ["python", "./Test-FORCOAST-SM-A4-main/temp_oystergrounds_erddap_LB_WIP.py"]
+RUN chmod 755 /usr/src/app/run.sh
+
+ENTRYPOINT ["sh", "/usr/src/app/run.sh"]
