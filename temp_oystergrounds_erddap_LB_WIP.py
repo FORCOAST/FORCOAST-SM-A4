@@ -12,7 +12,7 @@ import numpy as np
 import xarray as xr
 import requests
 import matplotlib.pyplot as mp
-import os
+import sys
 
 
 #Input
@@ -20,29 +20,29 @@ import os
 variable = "sea_surface_temperature"
 #grounds = np.loadtxt("/home/kbaetens/" )
 #definition of spawning groud where temperature will be assess
-grounds = np.loadtxt(r"/Test-FORCOAST-SM-A4-main/SG_oyster.dat")
+grounds = np.loadtxt(r"/usr/src/app/SG_oyster.dat")
 ground_id =[4,5,6,7]
-ndays = float(os.getenv("nd", 3))
+ndays = float(sys.argv[1])
 
 #Biological input
 #switch temperaturethreshold (0) or cumulative Temperature (1)
-Param_treshold_methods = float(os.getenv("ptm", 0))
+Param_treshold_methods = float(sys.argv[2])
 
 #Temperature treshold in C
-Treshold_temperature = float(os.getenv("tt", 9))
+Treshold_temperature = float(sys.argv[3])
 
 
 #variable to define threshold of temperature for gonade devellopement in C (default  = 0)
-Gonade_dev_treshold = float(os.getenv("gdt", 7))
+Gonade_dev_treshold = float(sys.argv[4])
 #variable to define threshold of cumulative temperature  (default  oyster 576)
-Treshold_temperature_cumulative_sum = float(os.getenv("ttcs", 325))
+Treshold_temperature_cumulative_sum = float(sys.argv[5])
 
 #Information relative to pelagic larval duration of the selected species (swarming should be includ)
-Pld_min = int(os.getenv("pldmin", 20))
-Pld_max = int(os.getenv("pldmax", 45))
+Pld_min = int(sys.argv[6])
+Pld_max = int(sys.argv[7])
 
 #Duration of spawning period
-Spawning_duration = int(os.getenv("sd", 30))
+Spawning_duration = int(sys.argv[8])
 
 
 #Subroutines and functions
@@ -199,7 +199,7 @@ def Bilogical_function(groundresult_time_series_temp,groundresult_time_series_da
 
 
 ######## Main program
-outputfile="/Test-FORCOAST-SM-A4-main/ground_results.txt"
+outputfile="/usr/src/app/output/ground_results.txt"
 f = open(outputfile, 'w') 
 
 noystergrounds= len(ground_id)
