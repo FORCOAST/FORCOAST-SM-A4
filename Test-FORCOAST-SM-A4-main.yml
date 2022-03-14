@@ -1,0 +1,13 @@
+version: '3'
+services:
+  test-forcoast-sm-a4-main:
+    image: test-forcoast-sm-a4-main  
+    environment: 
+     - nd=3
+	 - ptm=0
+	 - tt=9
+	 - gdt=7
+	 - ttcs=325
+	 - pldmin=20
+	 - pldmax=45
+	 - sd=30
