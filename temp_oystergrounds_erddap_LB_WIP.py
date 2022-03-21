@@ -11,9 +11,9 @@ from datetime import datetime,timedelta
 import numpy as np
 import xarray as xr
 import requests
-import matplotlib.pyplot as mp
 import sys
-
+import pandas as pd
+import df2img
 
 #Input
 #===========================================================
@@ -196,14 +196,12 @@ def Bilogical_function(groundresult_time_series_temp,groundresult_time_series_da
 #         f.write(str(ground_time)+"\n")
 #         f.write(str(groundresult_cum[start:-1])+"\n")
 
-
-
 ######## Main program
-outputfile="/usr/src/app/output/ground_results.txt"
-f = open(outputfile, 'w') 
+#outputfile=r"/usr/src/app/output/ground_results.txt"
+#f = open(outputfile, 'w') 
 
 noystergrounds= len(ground_id)
-outputfile=[]
+#outputfile=[]
 #1. Time 
 #-------------------
 ##get data in integer utc time and convert to string
@@ -217,8 +215,7 @@ dateSST_str_end = dateSST_end.strftime("%Y-%m-%d")
 for x in range(len(ground_id)):
     # 2.1 select lonlats only for relevant oysterground and create outputfile
     ground = grounds[np.any(grounds==ground_id[x],axis=1),:]
-
-    
+ 
         
     #2.2 extract variable for current oysterground
     groundresult = []
@@ -231,23 +228,47 @@ for x in range(len(ground_id)):
     groundresult_time_series_date = groundresult[2].time
 
     Bio_res = Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_treshold_methods,Gonade_dev_treshold,Treshold_temperature,Treshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration)
-
-
+    First_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[0].values[0]))).strftime("%d-%m-%y")
+    Last_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[1].values[0]))).strftime("%d-%m-%y")
+    
+    if x == 0:
+#        surf_temp_df = pd.DataFrame((float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])), index=[ground_time[0], ground_time[1], ground_time[2], ground_time[3]], columns=['Oysterground 4 (K)'])
+        arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
+        arrival_df = pd.DataFrame(data=arrival_data, index=[4])
+    else: 
+#        surf_temp_df.insert((x), 'Oysterground {} (K)'.format(x+4), (float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])))
+        arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
+        arrival_df_temporary = pd.DataFrame(data=arrival_data, index=[x+4])
+        arrival_df = pd.concat([arrival_df, arrival_df_temporary])
     #2.3 write results to outputfile
 
-    f.write("results of oysterground "+str(ground_id[x])+"\n")
-    f.write("\n")
-    f.write("daily average forecast: \n")
-    f.write("time(d-m-y), "+variable+"(K)\n")
-    f.write("==================================\n")
-    f.write(str(ground_time)+"\n")
-    f.write(str(groundresult_var)+"\n")
-    f.write("\n")
-    f.write("likely arrival: \n")
-    f.write("time(d-m-y)\n")
-    f.write("==================================\n")
-    f.write("from "+str(Bio_res[0].values[0])+" until "+str(Bio_res[1].values[0])+"\n")
+#    f.write("results of oysterground "+str(ground_id[x])+"\n")
+#    f.write("\n")
+#    f.write("daily average forecast: \n")
+#    f.write("time(d-m-y), "+variable+"(K)\n")
+#    f.write("==================================\n")
+#    f.write(str(ground_time)+"\n")
+#    f.write(str(groundresult_var)+"\n")
+#    f.write("\n")
+#    f.write("likely arrival: \n")
+#    f.write("time(d-m-y)\n")
+#    f.write("==================================\n")
+#    f.write("from "+str(First_arrival_timestamp)+" until "+str(Last_arrival_timestamp)+"\n")
  
-f.close()
+#f.close()
+
+#3. Export output
+# export dataframes to png
+#surf_temp_df = surf_temp_df.round(decimals=1)
+#surf_temp_df = surf_temp_df.rename_axis("Date")
+#surf_temp_fig = df2img.plot_dataframe(surf_temp_df, title=dict(text="Sea surface temperature of the Oystergrounds in Kelvin"), fig_size=(800, 200))
+arrival_df = arrival_df.rename_axis("Spawning ground")
+arrival_fig = df2img.plot_dataframe(arrival_df, title=dict(text="                    First and last arrivals per Oysterground"), fig_size=(800, 200))
+
+
+#df2img.save_dataframe(fig=surf_temp_fig, filename=r"/usr/src/app/output/surf_temp.png")
+df2img.save_dataframe(fig=arrival_fig, filename=r"/usr/src/app/output/arrival.png")
+
+
 
 
