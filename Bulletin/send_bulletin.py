@@ -117,12 +117,12 @@ if __name__ == '__main__':
                       '- Site: North-Sea\n'\
                       '- Number of days: {0}\n'\
                       '- Method: {1}\n'\
-                      '- Treshold temperature: {2} (C)\n'\
-                      '- Treshold of temperature for gonade\n  development: {3} (C)\n'\
-                      '- Treshold of cumulative temperature: {4} (C)\n'\
+                      '- Threshold temperature: {2} (C)\n'\
+                      '- Threshold of temperature for gonade\n  development: {3} (C)\n'\
+                      '- Threshold of cumulative temperature: {4} (C)\n'\
                       '- Minimal pelagic larval duration of\n  the selected species: {5}\n'\
                       '- Maximal pelagic larval duration of\n  the selected species parameter: {6}\n'\
-                      '- spawning duration: {7}\n'\
+                      '- Spawning duration: {7}\n'\
                       '- Bulletin generated on: {8}'
                       .format(argument.ndays, argument.ptm, argument.tt,\
                               argument.gdt, argument.ttcs, argument.pldmin,\
