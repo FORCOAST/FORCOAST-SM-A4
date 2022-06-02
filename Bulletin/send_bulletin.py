@@ -86,7 +86,7 @@ newBulletin.paste(footer_resize, (0, 3031))
 draw = PIL.ImageDraw.Draw(newBulletin)
 font_title = ImageFont.truetype(r"/usr/src/app/Bulletin/arial.ttf", 140)
 font_param = ImageFont.truetype(r"/usr/src/app/Bulletin/ariali.ttf", 35)
-draw.text((1000, 150), 'Assistence for \nspat capture', font = font_title, fill=(23,111,176,255), align="center")
+draw.text((1000, 150), 'Spat Capture\nAssistance', font = font_title, fill=(23,111,176,255), align="center")
 
 
 if __name__ == '__main__':
