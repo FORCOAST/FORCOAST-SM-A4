@@ -251,6 +251,8 @@ for x in range(len(ground_id)):
             arrival_data = {'First arrival': ["No spawning events"], 'Last arrival': ["No spawning events"]}
             arrival_df_temporary = pd.DataFrame(data=arrival_data, index=[x+3])
             arrival_df = pd.concat([arrival_df, arrival_df_temporary])
+    
+
     #2.3 write results to outputfile
 
 #    f.write("results of oysterground "+str(ground_id[x])+"\n")
@@ -274,6 +276,7 @@ for x in range(len(ground_id)):
 #surf_temp_df = surf_temp_df.rename_axis("Date")
 #surf_temp_fig = df2img.plot_dataframe(surf_temp_df, title=dict(text="Sea surface temperature of the Oystergrounds in Kelvin"), fig_size=(800, 200))
 arrival_df = arrival_df.rename_axis("Spawning ground")
+arrival_df = arrival_df.rename(index={3:'Western Scheldt', 4:'Belgian North Sea', 5:'French North Coast', 6:'English South Coast', 7:'English South-East Coast'})
 arrival_fig = df2img.plot_dataframe(arrival_df, title=dict(text="                    First and last arrivals per Oysterground"), fig_size=(800, 200))
 
 
