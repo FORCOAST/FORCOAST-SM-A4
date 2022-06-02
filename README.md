@@ -9,7 +9,6 @@ To build this image: <br />
 -Then run the command: "docker build -t forcoast-sm-a4 ."
 
 Available parameters:  <br />
-- ndays : the number of days, default: 3 <br />
 - ptm : switch temperature treshold (0) or cumalitve temperature (1), default: 1 <br />
 - tt: treshold temperature, default: 9 <br />
 - gdt: treshold of temperature for gonade development, default: 7 <br />
@@ -24,5 +23,5 @@ Available parameters:  <br />
 
 To run the container:<br />
 
-- "docker run forcoast-sm-a4 ndays ptm tt gdt ttcs pldmin pldmax sd token chat_id bulletin method" all parameters need to be given
-- Example with default values: "docker run forcoast-sm-a4 3 1 9 7 325 20 45 30 5267228188:AAGx60FtWgHkScBb3ISFL1dp6Oq_9z9z0rw  -1001573378021 ./output/bulletin.png file"
+- "docker run forcoast-sm-a4 ptm tt gdt ttcs pldmin pldmax sd token chat_id bulletin method" all parameters need to be given
+- Example with default values: "docker run forcoast-sm-a4 1 9 7 325 20 45 30 5267228188:AAGx60FtWgHkScBb3ISFL1dp6Oq_9z9z0rw  -1001573378021 ./output/bulletin.png file"
