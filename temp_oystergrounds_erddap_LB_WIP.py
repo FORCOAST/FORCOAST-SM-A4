@@ -21,28 +21,28 @@ variable = "sea_surface_temperature"
 #grounds = np.loadtxt("/home/kbaetens/" )
 #definition of spawning groud where temperature will be assess
 grounds = np.loadtxt(r"/usr/src/app/SG_oyster.dat")
-ground_id =[4,5,6,7]
-ndays = float(sys.argv[1])
+ground_id =[3,4,5,6,7]
+ndays = 3
 
 #Biological input
 #switch temperaturethreshold (0) or cumulative Temperature (1)
-Param_treshold_methods = float(sys.argv[2])
+Param_treshold_methods = float(sys.argv[1])
 
 #Temperature treshold in C
-Treshold_temperature = float(sys.argv[3])
+Treshold_temperature = float(sys.argv[2])
 
 
 #variable to define threshold of temperature for gonade devellopement in C (default  = 0)
-Gonade_dev_treshold = float(sys.argv[4])
+Gonade_dev_treshold = float(sys.argv[3])
 #variable to define threshold of cumulative temperature  (default  oyster 576)
-Treshold_temperature_cumulative_sum = float(sys.argv[5])
+Treshold_temperature_cumulative_sum = float(sys.argv[4])
 
 #Information relative to pelagic larval duration of the selected species (swarming should be includ)
-Pld_min = int(sys.argv[6])
-Pld_max = int(sys.argv[7])
+Pld_min = int(sys.argv[5])
+Pld_max = int(sys.argv[6])
 
 #Duration of spawning period
-Spawning_duration = int(sys.argv[8])
+Spawning_duration = int(sys.argv[7])
 
 
 #Subroutines and functions
@@ -52,7 +52,7 @@ def extractlist(lst):
 
 def extracttemp(daystart,dayend,lonlat,npos,ndays,var):
     
-    cumstart = "2021-01-01"
+    cumstart = "{}-01-01".format(datetime.now().strftime("%Y"))
     inputfile="erddap.nc"
     #make the area to download as small as possible:
     maxlon = np.max(lonlat[:,0])
@@ -227,19 +227,30 @@ for x in range(len(ground_id)):
     groundresult_time_series_temp = np.array(groundresult[2])
     groundresult_time_series_date = groundresult[2].time
 
-    Bio_res = Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_treshold_methods,Gonade_dev_treshold,Treshold_temperature,Treshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration)
-    First_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[0].values[0]))).strftime("%d-%m-%y")
-    Last_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[1].values[0]))).strftime("%d-%m-%y")
-    
-    if x == 0:
-#        surf_temp_df = pd.DataFrame((float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])), index=[ground_time[0], ground_time[1], ground_time[2], ground_time[3]], columns=['Oysterground 4 (K)'])
-        arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
-        arrival_df = pd.DataFrame(data=arrival_data, index=[4])
-    else: 
-#        surf_temp_df.insert((x), 'Oysterground {} (K)'.format(x+4), (float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])))
-        arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
-        arrival_df_temporary = pd.DataFrame(data=arrival_data, index=[x+4])
-        arrival_df = pd.concat([arrival_df, arrival_df_temporary])
+    try:
+        Bio_res = Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_treshold_methods,Gonade_dev_treshold,Treshold_temperature,Treshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration)
+        First_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[0].values[0]))).strftime("%d-%m-%y")
+        Last_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[1].values[0]))).strftime("%d-%m-%y")
+        
+        if x == 0:
+            surf_temp_df = pd.DataFrame((float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])), index=[ground_time[0], ground_time[1], ground_time[2], ground_time[3]], columns=['Oysterground 4 (K)'])
+            arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
+            arrival_df = pd.DataFrame(data=arrival_data, index=[3])
+        else: 
+            surf_temp_df.insert((x), 'Oysterground {} (K)'.format(x+4), (float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])))
+            arrival_data = {'First arrival': [First_arrival_timestamp], 'Last arrival': [Last_arrival_timestamp]}
+            arrival_df_temporary = pd.DataFrame(data=arrival_data, index=[x+3])
+            arrival_df = pd.concat([arrival_df, arrival_df_temporary])
+    except:
+        if x == 0:
+            surf_temp_df = pd.DataFrame((float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])), index=[ground_time[0], ground_time[1], ground_time[2], ground_time[3]], columns=['Oysterground 4 (K)'])
+            arrival_data = {'First arrival': ["No spawning events"], 'Last arrival': ["No spawning events"]}
+            arrival_df = pd.DataFrame(data=arrival_data, index=[3])
+        else: 
+            surf_temp_df.insert((x), 'Oysterground {} (K)'.format(x+4), (float(groundresult_var[0]),float(groundresult_var[1]),float(groundresult_var[2]),float(groundresult_var[3])))
+            arrival_data = {'First arrival': ["No spawning events"], 'Last arrival': ["No spawning events"]}
+            arrival_df_temporary = pd.DataFrame(data=arrival_data, index=[x+3])
+            arrival_df = pd.concat([arrival_df, arrival_df_temporary])
     #2.3 write results to outputfile
 
 #    f.write("results of oysterground "+str(ground_id[x])+"\n")
@@ -268,6 +279,7 @@ arrival_fig = df2img.plot_dataframe(arrival_df, title=dict(text="               
 
 #df2img.save_dataframe(fig=surf_temp_fig, filename=r"/usr/src/app/output/surf_temp.png")
 df2img.save_dataframe(fig=arrival_fig, filename=r"/usr/src/app/output/arrival.png")
+print(datetime.now())
 
 
 

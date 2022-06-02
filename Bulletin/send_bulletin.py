@@ -1,5 +1,4 @@
 import requests
-import json
 import telepot
 import argparse
 import time
@@ -57,11 +56,11 @@ logo_width, logo_height = logo.size
 footer_width, footer_height= footer.size
 
 #rescale
-logo_new_width = 1000
+logo_new_width = 750
 logo_new_height = int((logo_new_width/logo_width)*logo_height)
 logo_resize = logo.resize((logo_new_width, logo_new_height), PIL.Image.NEAREST)
 
-grounds_map_new_width = 2000
+grounds_map_new_width = 2500
 grounds_map_new_height = int((grounds_map_new_width/grounds_map_width)*grounds_map_height)
 grounds_map_resize = grounds_map.resize((grounds_map_new_width, grounds_map_new_height), PIL.Image.NEAREST)
 
@@ -73,61 +72,65 @@ arrival_new_width = 3050
 arrival_new_height = int((arrival_new_width/arrival_width)*arrival_height)
 arrival_resize = arrival.resize((arrival_new_width, arrival_new_height), PIL.Image.NEAREST)
 
-footer_new_width = 3150
+footer_new_width = 3050
 footer_new_height = int((footer_new_width/footer_width)*footer_height)
 footer_resize = footer.resize((footer_new_width, footer_new_height), PIL.Image.NEAREST)
 
 #draw images on bulletin (non-parameter)
-newBulletin = Image.new("RGBA", (3150, 2611), (255, 255, 255))
-newBulletin.paste(grounds_map_resize, (1100, 150))
-#newBulletin.paste(surf_temp_resize, (50, 1699))
-newBulletin.paste(arrival_resize, (50, 1880))
-newBulletin.paste(logo_resize, (50, 150))
-newBulletin.paste(footer_resize, (0, 2511))
+newBulletin = Image.new("RGBA", (3050, 3113), (255, 255, 255))
+newBulletin.paste(grounds_map_resize, (275, 616))
+#newBulletin.paste(surf_temp_resize, (50, 1599))
+newBulletin.paste(arrival_resize, (0, 2205))
+newBulletin.paste(logo_resize, (50, 50))
+newBulletin.paste(footer_resize, (0, 3031))
 draw = PIL.ImageDraw.Draw(newBulletin)
-font_title = ImageFont.truetype(r"/usr/src/app/Bulletin/arial.ttf", 100)
-font_param = ImageFont.truetype(r"/usr/src/app/Bulletin/arial.ttf", 50)
-draw.text((782, 0), 'A4: Assistance for spat captures', font = font_title, fill=(23,111,176,255))
+font_title = ImageFont.truetype(r"/usr/src/app/Bulletin/arial.ttf", 140)
+font_param = ImageFont.truetype(r"/usr/src/app/Bulletin/ariali.ttf", 35)
+draw.text((1000, 150), 'Assistence for \nspat capture', font = font_title, fill=(23,111,176,255), align="center")
 
 
 if __name__ == '__main__':
 
     # Get input from command line arguments
     parser = argparse.ArgumentParser(description = "Description for my parser")
-    parser.add_argument("-A", "--ndays", help = "Number of days parameter", required = True, default = "")
-    parser.add_argument("-B", "--ptm", help = "Method parameter, switch temperature treshold (0) or cumalitve temperature (1)", required = True, default = "")
-    parser.add_argument("-C", "--tt", help = "Treshold temperature parameter", required = True, default = "")
-    parser.add_argument("-D", "--gdt", help = "treshold of temperature for gonade development parameter", required = True, default = "")
-    parser.add_argument("-E", "--ttcs", help = "treshold of cumulative temperature parameter", required = True, default = "")
-    parser.add_argument("-F", "--pldmin", help = "minimal pelagic larval duration of the selected species parameter", required = True, default = "")
-    parser.add_argument("-G", "--pldmax", help = "maximal pelagic larval duration of the selected species parameter", required = True, default = "")
-    parser.add_argument("-H", "--sd", help = "spawning duration parameter", required = True, default = "")
-    parser.add_argument("-I", "--token", help = "Telegram bot token", required = True, default = "")
-    parser.add_argument("-J", "--chat_id", help = "Telegram chat ID", required = True, default = "")
-    parser.add_argument("-K", "--bulletin", help = "Bulletin to be send", required = True, default = "")
-    parser.add_argument("-L", "--method", help = "Specify file or URL as input", required = False, default = "url")
+    parser.add_argument("-A", "--ptm", help = "Method parameter, switch temperature treshold (0) or cumalitve temperature (1)", required = True, default = "")
+    parser.add_argument("-B", "--tt", help = "Treshold temperature parameter", required = True, default = "")
+    parser.add_argument("-C", "--gdt", help = "treshold of temperature for gonade development parameter", required = True, default = "")
+    parser.add_argument("-D", "--ttcs", help = "treshold of cumulative temperature parameter", required = True, default = "")
+    parser.add_argument("-E", "--pldmin", help = "minimal pelagic larval duration of the selected species parameter", required = True, default = "")
+    parser.add_argument("-F", "--pldmax", help = "maximal pelagic larval duration of the selected species parameter", required = True, default = "")
+    parser.add_argument("-G", "--sd", help = "spawning duration parameter", required = True, default = "")
+    parser.add_argument("-H", "--token", help = "Telegram bot token", required = True, default = "")
+    parser.add_argument("-I", "--chat_id", help = "Telegram chat ID", required = True, default = "")
+    parser.add_argument("-J", "--bulletin", help = "Bulletin to be send", required = True, default = "")
+    parser.add_argument("-K", "--method", help = "Specify file or URL as input", required = False, default = "url")
 
     argument = parser.parse_args()
     
     #draw input parameters on bulletin
     now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    dt_string = now.strftime("%a %b %d %H:%M:%S %Y")
     
-    draw.text((50, 800), 'Parameters:\n'\
-                      '- Site: North-Sea\n'\
-                      '- Number of days: {0}\n'\
-                      '- Method: {1}\n'\
-                      '- Threshold temperature: {2} (oC)\n'\
-                      '- Threshold of temperature for gonade\n  development: {3} (oC)\n'\
-                      '- Threshold of cumulative temperature: {4} (oC)\n'\
-                      '- Minimal pelagic larval duration of\n  the selected species: {5}\n'\
-                      '- Maximal pelagic larval duration of\n  the selected species parameter: {6}\n'\
-                      '- Spawning duration: {7}\n'\
-                      '- Bulletin generated on: {8}'
-                      .format(argument.ndays, argument.ptm, argument.tt,\
+    if argument.ptm == "0":
+        model_method = "Temperature threshold"
+    elif argument.ptm == "1":
+        model_method = "Cumulative temperature"
+    
+    draw.text((2100, 100), 'Bulletin generated on: {7}\n\n'\
+                      'Parameters:\n'\
+                      '-Site: North-Sea\n'\
+                      '-Method: {0}\n'\
+                      '-Treshold temperature: {1} \u00B0C\n'\
+                      '-Treshold of temperature for gonade development: {2} \u00B0C\n'\
+                      '-Treshold of cumulative temperature: {3} \u00B0C\n'\
+                      '-Minimal pelagic larval duration\n   of the selected species: {4} days\n'\
+                      '-Maximal pelagic larval duration\n   of the selected species parameter: {5} days\n'\
+                      '-Spawning duration: {6} days\n'\
+                      
+                      .format(model_method, argument.tt,\
                               argument.gdt, argument.ttcs, argument.pldmin,\
                               argument.pldmax, argument.sd, dt_string), \
-                       font = font_param, fill=(23,111,176,255))
+                       font = font_param, fill=(0,0,0,255))
     #save bulletin
     newBulletin.save(r"/usr/src/app/output/bulletin.png", quality = 100)
     
