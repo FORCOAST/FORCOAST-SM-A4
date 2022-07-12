@@ -1,4 +1,4 @@
-Subsets three variable from ERDAPP: </br>
+Subsets three variable from ERDAPP to the FORCOAST Geoserver: </br>
 </br>
 </br>
 -Average daily surface water temperature </br>
