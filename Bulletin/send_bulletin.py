@@ -93,13 +93,13 @@ if __name__ == '__main__':
 
     # Get input from command line arguments
     parser = argparse.ArgumentParser(description = "Description for my parser")
-    parser.add_argument("-A", "--ptm", help = "Method parameter, switch temperature treshold (0) or cumalitve temperature (1)", required = True, default = "")
-    parser.add_argument("-B", "--tt", help = "Treshold temperature parameter", required = True, default = "")
-    parser.add_argument("-C", "--gdt", help = "treshold of temperature for gonade development parameter", required = True, default = "")
-    parser.add_argument("-D", "--ttcs", help = "treshold of cumulative temperature parameter", required = True, default = "")
-    parser.add_argument("-E", "--pldmin", help = "minimal pelagic larval duration of the selected species parameter", required = True, default = "")
-    parser.add_argument("-F", "--pldmax", help = "maximal pelagic larval duration of the selected species parameter", required = True, default = "")
-    parser.add_argument("-G", "--sd", help = "spawning duration parameter", required = True, default = "")
+    parser.add_argument("-A", "--ptm", help = "Method parameter, switch temperature threshold (0) or cumalitve temperature (1)", required = True, default = "")
+    parser.add_argument("-B", "--tt", help = "Threshold temperature parameter", required = True, default = "")
+    parser.add_argument("-C", "--gdt", help = "Threshold of temperature for gonade development parameter", required = True, default = "")
+    parser.add_argument("-D", "--ttcs", help = "Threshold of cumulative temperature parameter", required = True, default = "")
+    parser.add_argument("-E", "--pldmin", help = "Minimal pelagic larval duration of the selected species parameter", required = True, default = "")
+    parser.add_argument("-F", "--pldmax", help = "Maximal pelagic larval duration of the selected species parameter", required = True, default = "")
+    parser.add_argument("-G", "--sd", help = "Spawning duration parameter", required = True, default = "")
     parser.add_argument("-H", "--token", help = "Telegram bot token", required = True, default = "")
     parser.add_argument("-I", "--chat_id", help = "Telegram chat ID", required = True, default = "")
     parser.add_argument("-J", "--bulletin", help = "Bulletin to be send", required = True, default = "")
@@ -120,9 +120,9 @@ if __name__ == '__main__':
                       'Parameters:\n'\
                       '-Site: North-Sea\n'\
                       '-Method: {0}\n'\
-                      '-Treshold temperature: {1} \u00B0C\n'\
-                      '-Treshold of temperature for gonade development: {2} \u00B0C\n'\
-                      '-Treshold of cumulative temperature: {3} \u00B0C\n'\
+                      '-Threshold temperature: {1} \u00B0C\n'\
+                      '-Threshold of temperature for gonade development: {2} \u00B0C\n'\
+                      '-Threshold of cumulative temperature: {3} \u00B0C\n'\
                       '-Minimal pelagic larval duration\n   of the selected species: {4} days\n'\
                       '-Maximal pelagic larval duration\n   of the selected species parameter: {5} days\n'\
                       '-Spawning duration: {6} days\n'\

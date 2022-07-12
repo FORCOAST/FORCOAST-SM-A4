@@ -9,10 +9,10 @@ To build this image: <br />
 -Then run the command: "docker build -t forcoast-sm-a4 ."
 
 Available parameters:  <br />
-- ptm : switch temperature treshold (0) or cumalitve temperature (1), default: 1 <br />
-- tt: treshold temperature, default: 9 <br />
-- gdt: treshold of temperature for gonade development, default: 7 <br />
-- ttcs: treshold of cumulative temperature, default: 325 <br />
+- ptm : switch temperature threshold (0) or cumalitve temperature (1), default: 1 <br />
+- tt: threshold temperature, default: 9 <br />
+- gdt: threshold of temperature for gonade development, default: 7 <br />
+- ttcs: threshold of cumulative temperature, default: 325 <br />
 - pldmin: minimal pelagic larval duration of the selected species, default: 20 <br />
 - pldmax: maximal pelagic larval duration of the selected species, default: 45 <br />
 - sd : duration of the spawning period, default: 30 <br />

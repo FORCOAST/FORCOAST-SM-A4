@@ -26,16 +26,16 @@ ndays = 3
 
 #Biological input
 #switch temperaturethreshold (0) or cumulative Temperature (1)
-Param_treshold_methods = float(sys.argv[1])
+Param_threshold_methods = float(sys.argv[1])
 
-#Temperature treshold in C
-Treshold_temperature = float(sys.argv[2])
+#Temperature threshold in C
+Threshold_temperature = float(sys.argv[2])
 
 
 #variable to define threshold of temperature for gonade devellopement in C (default  = 0)
-Gonade_dev_treshold = float(sys.argv[3])
+Gonade_dev_threshold = float(sys.argv[3])
 #variable to define threshold of cumulative temperature  (default  oyster 576)
-Treshold_temperature_cumulative_sum = float(sys.argv[4])
+Threshold_temperature_cumulative_sum = float(sys.argv[4])
 
 #Information relative to pelagic larval duration of the selected species (swarming should be includ)
 Pld_min = int(sys.argv[5])
@@ -113,11 +113,11 @@ def extracttemp(daystart,dayend,lonlat,npos,ndays,var):
     #return the output values
     return temp_forecast,cum_result,daily_result
   
-def Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_treshold_methods,Gonade_dev_treshold,Treshold_temperature,Treshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration):
+def Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_threshold_methods,Gonade_dev_threshold,Threshold_temperature,Threshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration):
     
     #choice of the methods used
-    if Param_treshold_methods == 0:
-        aaa = np.where(groundresult_time_series_temp > Treshold_temperature +  273.15)
+    if Param_threshold_methods == 0:
+        aaa = np.where(groundresult_time_series_temp > Threshold_temperature +  273.15)
         if len(aaa[0]) > 0:
             date_selected_index = np.min(aaa)
             date_selected = groundresult_time_series_date[np.array([date_selected_index])]
@@ -129,11 +129,11 @@ def Bilogical_function(groundresult_time_series_temp,groundresult_time_series_da
             Last_arrival = ["no spawning detected yet"]
        
 
-    elif Param_treshold_methods == 1:
-        daily_result_inC = groundresult_time_series_temp - 273.15 - Gonade_dev_treshold
+    elif Param_threshold_methods == 1:
+        daily_result_inC = groundresult_time_series_temp - 273.15 - Gonade_dev_threshold
         daily_result_inC[daily_result_inC < 0] = 0
         cum_result = daily_result_inC.cumsum()
-        aaa = np.where(cum_result > Treshold_temperature_cumulative_sum)
+        aaa = np.where(cum_result > Threshold_temperature_cumulative_sum)
         if len(aaa[0]) > 0:
             date_selected_index = np.min(aaa)
             date_selected = groundresult_time_series_date[np.array([date_selected_index])]
@@ -228,7 +228,7 @@ for x in range(len(ground_id)):
     groundresult_time_series_date = groundresult[2].time
 
     try:
-        Bio_res = Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_treshold_methods,Gonade_dev_treshold,Treshold_temperature,Treshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration)
+        Bio_res = Bilogical_function(groundresult_time_series_temp,groundresult_time_series_date,Param_threshold_methods,Gonade_dev_threshold,Threshold_temperature,Threshold_temperature_cumulative_sum,Pld_min,Pld_max,Spawning_duration)
         First_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[0].values[0]))).strftime("%d-%m-%y")
         Last_arrival_timestamp = pd.Timestamp(np.datetime64(str(Bio_res[1].values[0]))).strftime("%d-%m-%y")
         
