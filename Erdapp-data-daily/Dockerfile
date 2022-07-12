@@ -10,6 +10,6 @@ RUN apt-get install curl -y
 RUN apt-get install zip -y
 RUN apt-get install wget
 
-COPY . /usr/src/app
+COPY Extract_temperature.sh Extract_water_velocity.sh run.sh /usr/src/app
 
-ENTRYPOINT ["/usr/src/app/Extract_ERDAPP_daily.sh"]
+ENTRYPOINT ["/usr/src/app/run.sh"]
