@@ -1,3 +1,4 @@
+# "(C) Copyright FORCOAST H2020 project under Grant No. 870465. All rights reserved."
 FROM python:3.10.2
 
 RUN mkdir -p /usr/src/app

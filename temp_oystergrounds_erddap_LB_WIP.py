@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# "(C) Copyright FORCOAST H2020 project under Grant No. 870465. All rights reserved."
 # -*- coding: utf-8 -*-
 """
 Created on Mon Aug 24 18:59:04 2020

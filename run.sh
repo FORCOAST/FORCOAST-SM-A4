@@ -1,4 +1,5 @@
 #!/bin/bash
+# "(C) Copyright FORCOAST H2020 project under Grant No. 870465. All rights reserved."
 # docker run forcoast-sm-a4 ...
 INITIAL_DIR="$(pwd)"
 cd /usr/src/app
