@@ -24,4 +24,6 @@ Available parameters:  <br />
 To run the container:<br />
 
 - "docker run forcoast-sm-a4 ptm tt gdt ttcs pldmin pldmax sd token chat_id bulletin method" all parameters need to be given
-- Example with default values: "docker run forcoast-sm-a4 1 9 7 325 20 45 30 5267228188:AAGx60FtWgHkScBb3ISFL1dp6Oq_9z9z0rw  -1001573378021 ./output/bulletin.png file"
+- Example with default values: "docker run forcoast-sm-a4 1 9 7 325 20 45 30 5267228188:AAGx60FtWgHkScBb3ISFL1dp6Oq_9z9z0rw  -1001573378021 ./output/bulletin.png file"</br>
+</br>
+Licensed under the Apache License, Version 2.0
